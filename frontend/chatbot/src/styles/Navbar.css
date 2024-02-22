@@ -1,0 +1,80 @@
+/* Navbar.css */
+
+/* General Styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #2d0e83b4;
+    color: white;
+  }
+  
+  .logo_image {
+    max-width: 100px; /* Adjust the size as needed */
+  }
+  
+  .navbar_list {
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      justify-content: flex-end; /* Align items to the right */
+  
+      li {
+        a {
+          color: white;
+          text-decoration: none;
+          font-weight: bold;
+  
+          &.active {
+            border-bottom: 2px solid white;
+          }
+        }
+      }
+    }
+  }
+  
+  /* Mobile Navbar Styles */
+  .mobile_navbar {
+    display: none; /* Hidden by default */
+  }
+  
+  .hamburger-menu {
+    cursor: pointer;
+    color: white;
+  }
+  
+  .navbar_list_mobile {
+    ul {
+      list-style: none;
+      background-color: #333;
+      padding: 10px;
+  
+      li {
+        a {
+          color: white;
+          text-decoration: none;
+          font-weight: bold;
+          display: block;
+          padding: 10px;
+  
+          &.active {
+            background-color: #555;
+          }
+        }
+      }
+    }
+  }
+  
+  /* Media Query to show mobile navbar */
+  @media (max-width: 768px) {
+    .navbar_list {
+      display: none; /* Hide desktop navbar on small screens */
+    }
+  
+    .mobile_navbar {
+      display: block; /* Show mobile navbar on small screens */
+    }
+  }
+  

@@ -1,0 +1,99 @@
+/* Add these styles to your CSS file or style block */
+
+html, body {
+    height: fit-content;
+    min-height: 100%;
+    margin: 0;
+  }
+  
+  body {
+    background: linear-gradient(to bottom, rgb(58, 40, 132), rgb(105, 131, 202));
+    background-repeat: no-repeat;
+    font-family: 'Arial', sans-serif; /* Specify a fallback font */
+  }
+
+.chatbot-container {
+    border: 1px solid #06083b;
+    border-radius: 20px;
+    padding: 20px;
+    width: 40%; /* Adjust the width as needed */
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .chatbot-container h1 {
+    text-align: center;
+    color: #9082bb; /* Adjust the color as needed */
+  }
+  
+  .input-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  .input-box {
+    width: 100%;
+    padding: 10px;
+    background-color: #5B479E;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    outline: none; /* Remove the outline on focus */
+  }
+  
+  .input-box:focus {
+    border: none; /* Remove the border on focus */
+    background-color: #9082bb; /* Set background color to transparent on focus */
+  }
+
+  .predict-button{
+    background-color: #5B479E;
+    color: rgb(208, 213, 232);
+    padding: 2px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    margin-left: 10px;
+    outline: none;
+  }
+
+    .predict-button:hover {
+        background-color: #3F2E6E;
+    }
+  
+  .response-section {
+    margin-top: 20px;
+  }
+  
+  .bot-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .response-container {
+    background-color: #041d3a84;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .response-container p {
+    margin-bottom: 10px;
+    color: #e3d1d1;
+  }
+  
+  .course-name {
+    font-weight: bold;
+    color: #cdb21b; /* Adjust the color as needed */
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
