@@ -1,21 +1,21 @@
-// ChatHistory.js
-
 import React, { useEffect, useState } from 'react';
 //import '../styles/ChatHistory.css'; // Add your CSS file if needed
 
-const ChatHistory = ({ user_id }) => {
+const ChatHistory = () => {
   const [chatHistory, setChatHistory] = useState([]);
 
   useEffect(() => {
     // Fetch chat history using user_id when the component mounts
     const fetchChatHistory = async () => {
       try {
+        const token = localStorage.getItem('accessToken');
+
         const response = await fetch('http://localhost:5000/fetch_chat_history', {
-          method: 'POST',
+          method: 'GET', // Use GET method for fetching chat history
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({ user_id }),
         });
 
         const data = await response.json();
@@ -30,10 +30,8 @@ const ChatHistory = ({ user_id }) => {
       }
     };
 
-    if (user_id) {
-      fetchChatHistory();
-    }
-  }, [user_id]);
+    fetchChatHistory();
+  }, []);
 
   return (
     <div className="chat-history-container">

@@ -4,11 +4,10 @@ import CareerChatbot from './CareerChatbot';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user_id, setUserId] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
 
   const handleLogin = async () => {
     try {
-      // Make a POST request to your backend API for login
       const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {
@@ -18,21 +17,23 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log(data); // Log the response from the server
 
       if (response.ok) {
-        // Set the user_id in state
-        setUserId(data.user_id);
+        // Set the access token in state and local storage
+        setAccessToken(data.access_token);
+        localStorage.setItem('accessToken', data.access_token);
+        const token = localStorage.getItem('accessToken');
+        console.log('Token:', token);
+
+        // Render CareerChatbot directly after successful login 
+        window.location.href = '/chatbot';
+        return <CareerChatbot />;
+        
       }
     } catch (error) {
       console.error('Login error:', error);
     }
   };
-
-  // If user_id is available, render CareerChatbot
-  if (user_id) {
-    return <CareerChatbot user_id={user_id} />;
-  }
 
   return (
     <div>

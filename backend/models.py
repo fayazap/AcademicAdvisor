@@ -9,11 +9,12 @@ def get_uuid():
 
 class User(db.Model):
     __tablename__ = "user"
-    id = db.Column(db.String, default=get_uuid, primary_key=True)  # Change to db.String
+    id = db.Column(db.String, default=get_uuid, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     username = db.Column(db.Text, nullable=False, unique=True)
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
+    jwt_token = db.Column(db.Text)  # Add this line
 
     def __repr__(self):
         return f"User(id={self.id}, name={self.name}, username={self.username}, email={self.email})"

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -8,18 +8,21 @@ from flask_sqlalchemy import SQLAlchemy
 from models import db, User, ChatHistory
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 
 app = Flask(__name__)
 CORS(app)
 CORS(app, supports_credentials=True)
 
-app.config['SESSION_TYPE'] = 'filesystem'
 app.config.from_pyfile('instance/config.py')
-app.config['SECRET_KEY'] = '1234'  # Add a secret key for session
-app.config['SESSION_COOKIE_SAMESITE'] = None  # Allow cross-site requests for session cookie
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_SECRET_KEY'] = '1234'
+
 db.init_app(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
+jwt = JWTManager(app)
 
 # Load and prepare the dataset (Replace with your actual dataset)
 dataset_path = '../dataset/b1.csv'
@@ -35,10 +38,11 @@ model = make_pipeline(CountVectorizer(), MultinomialNB())
 model.fit(X, y)
 
 @app.route('/predict_career', methods=['POST'])
+@jwt_required()
 def predict_career():
     try:
-        user_id = request.json.get('user_id')
-        print(f"user kittunnundo inside predic_career: user_id={user_id}")
+        current_user_id = get_jwt_identity()
+        print(f"user_id inside predict_career: user_id={current_user_id}")
 
         user_input = request.json.get('user_input', '').lower()
 
@@ -57,10 +61,8 @@ def predict_career():
 
         # Sort filtered careers based on probability in descending order
         sorted_careers = sorted(filtered_careers, key=lambda x: x['probability'], reverse=True)[:10]
-        
-        if user_id:
-            print(f"in function if: user_id={user_id}, user_input={user_input}, sorted_careers={sorted_careers}")
-            save_chat_history(user_id, user_input, sorted_careers)
+
+        save_chat_history(current_user_id, user_input, sorted_careers)
 
         response_data = {
             'userInput': user_input,
@@ -73,7 +75,7 @@ def predict_career():
     except Exception as e:
         print(f"Error in predict_career route: {str(e)}")
         return jsonify({'error': str(e)}), 500
-    
+
 @app.route('/login', methods=['POST'])
 def login():
     try:
@@ -87,8 +89,8 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if user and bcrypt.check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            response_data = {'message': 'Login successful', 'user_id': user.id}
+            access_token = create_access_token(identity=user.id)
+            response_data = {'access_token': access_token, 'user_id': user.id}
             return jsonify(response_data), 200
         else:
             return jsonify({'error': 'Invalid email or password'}), 401
@@ -118,15 +120,15 @@ def save_chat_history(user_id, user_input, sorted_careers):
     except Exception as e:
         print(f"Error saving chat history: {str(e)}")
 
-@app.route('/fetch_chat_history', methods=['POST'])
+@app.route('/fetch_chat_history', methods=['GET'])
+@jwt_required()
 def fetch_chat_history():
     try:
-        user_id = request.json.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'user_id is required'}), 400
+        current_user_id = get_jwt_identity()
+        print(f"Current user_id inside fetch_chat_history: user_id={current_user_id}")
 
         # Fetch chat history for the specified user_id
-        chat_history = ChatHistory.query.filter_by(user_id=user_id).all()
+        chat_history = ChatHistory.query.filter_by(user_id=current_user_id).all()
 
         # Convert chat history to a list of dictionaries
         chat_history_data = [{'timestamp': entry.timestamp,
@@ -166,22 +168,6 @@ def signup():
     except Exception as e:
         print(f"Error in signup route: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 500
-
-    
-@app.route('/logout', methods=['POST'])
-def logout():
-    try:
-        print("Logout route accessed")
-        user_id = session.get('user_id')
-        print(f"user kittunnundo inside logout: user_id={user_id}")
-
-        session.clear()
-
-        print(f"User logged out successfully")
-        return jsonify({'message': 'Logout successful'}), 200
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
+import LogoutButton from "./LogoutButton";
 
 const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -12,23 +13,6 @@ const Navbar = () => {
     setShowNavbar(!showNavbar);
   };
 
-
-  const logoutHandler = async (req, res) => {
-    try {
-      const apiUrl = "http://127.0.0.1:5000/logout";
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        window.location.href = "/";
-      }
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
 
   return (
     <div>
@@ -43,7 +27,7 @@ const Navbar = () => {
           <ul>
             <li>
               <NavLink
-                to="/"
+                to="/chatbot"
                 className={({ isActive }) => (isActive ? "active" : undefined)}
                 end
               >
@@ -59,9 +43,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <a className="logout__button" onClick={logoutHandler}>
-                Logout
-              </a>
+              <LogoutButton />
             </li>
           </ul>
         </div>
