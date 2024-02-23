@@ -46,6 +46,20 @@ def predict_career():
 
         user_input = request.json.get('user_input', '').lower()
 
+        if not user_input:
+            return jsonify({'error': 'Empty user input'}), 400
+
+        print(f"user_input: {user_input}")
+
+        # Check the format of df
+        print(f"DataFrame columns: {df.columns}")
+        print(f"DataFrame head: {df.head()}")
+
+        # Check the shape and contents of model.classes_
+        print(f"Model classes: {model.classes_}")
+        if model.classes_ is None or len(model.classes_) == 0:
+            return jsonify({'error': 'No classes found in the model'}), 500
+
         # Get probability estimates for all classes
         probabilities = model.predict_proba([user_input])[0]
 

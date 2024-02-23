@@ -70,6 +70,7 @@ const CareerChatbot = () => {
               <div className="response-container">
                 <img src="./Images/Chatbot.png" alt="Chatbot Logo" className="bot-logo" />
                 {predictedCareers.message}
+                <div className='response-details'>
                 {Array.isArray(predictedCareers.predictedCareers) &&
                   predictedCareers.predictedCareers.length > 0 ? (
                     <ul>
@@ -90,6 +91,7 @@ const CareerChatbot = () => {
                   ) : (
                     <p>No predicted careers available.</p>
                   )}
+                  </div>
               </div>
             )}
           </div>

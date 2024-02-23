@@ -12,7 +12,7 @@
 }
 
 .chatbot-container {
-  max-width: 800px;
+  max-width: 50%;
   margin: auto;
   padding: 20px;
   background-color: #c88e8e;
@@ -78,13 +78,16 @@
 }
 
 .response-container {
-  display: flex;
-  align-items: center;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 20px;
+}
+
+.response-details{
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .error-message {
