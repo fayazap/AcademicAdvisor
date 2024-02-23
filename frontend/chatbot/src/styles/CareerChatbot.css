@@ -8,7 +8,7 @@
 }
 
 .career-chatbot-wrapper{
-  background-color: #9b6969;
+  background: radial-gradient(circle, #b98686, #6a2929); /* Adjust the colors as needed */
 }
 
 .chatbot-container {

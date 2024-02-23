@@ -1,0 +1,72 @@
+/* Profile.css */
+
+* {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .profile-wrapper {
+    background: radial-gradient(circle, #b58888, #764c4c);
+  }
+  
+  .profile-container {
+    background: radial-gradient(circle, #b58888, #764c4c);
+    margin: auto;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .profile-header {
+    margin-bottom: 20px;
+  }
+  
+  .profile-header h1 {
+    color: #150643;
+  }
+  
+  .profile-content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .chat-history-section,
+  .user-details-section {
+    flex-grow: 1;
+  }
+  
+  .chat-history-section h2,
+  .user-details-section h2 {
+    color: #150643;
+  }
+  
+  .chat-history-section{
+    padding: 20px;
+    margin-right: 100px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #c88e8e;
+    margin-bottom: 20px;
+  }
+  
+  .user-details-section {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #c88e8e;
+    margin-bottom: 20px;
+    height: max-content;
+    width: 100%;
+  }
+  
+  .chat-history-section h2,
+  .user-details-section h2 {
+    margin-bottom: 10px;
+  }
+  
+  /* Add additional styling as needed */
+  

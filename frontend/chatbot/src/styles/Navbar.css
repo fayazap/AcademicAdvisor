@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: #9481c78e;
+    background: radial-gradient(circle, #86a0b9, #6a2929); /* Adjust the colors as needed */
     color: white;
   }
   

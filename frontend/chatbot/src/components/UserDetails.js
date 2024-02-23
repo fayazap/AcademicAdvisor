@@ -38,7 +38,6 @@ const UserDetails = () => {
       {userDetails ? (
         <div>
           <h2>User Details</h2>
-          <p>ID: {userDetails.user_details.id}</p>
           <p>Name: {userDetails.user_details.name}</p>
           <p>Username: {userDetails.user_details.username}</p>
           <p>Email: {userDetails.user_details.email}</p>
