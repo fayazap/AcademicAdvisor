@@ -25,7 +25,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 # Load and prepare the dataset (Replace with your actual dataset)
-dataset_path = '../dataset/b1.csv'
+dataset_path = '../dataset/modified_dataset.csv'
 df = pd.read_csv(dataset_path)
 
 # Combine multiline strings into a single line, separating interests with commas
@@ -59,16 +59,19 @@ def predict_career():
         print(f"Model classes: {model.classes_}")
         if model.classes_ is None or len(model.classes_) == 0:
             return jsonify({'error': 'No classes found in the model'}), 500
+        
+        split_classes = [label.rsplit(' - ', 1) for label in model.classes_]
+        programs, colleges_and_types = zip(*split_classes)
 
         # Get probability estimates for all classes
         probabilities = model.predict_proba([user_input])[0]
 
         # Create a list of dictionaries containing career and probability
-        career_probabilities = [{'predictedProgram': label.split(' - ')[0],
-                                 'predictedCollegeName': label.split(' - ')[1].rsplit(' (', 1)[0],
-                                 'predictedCollegeType': label.split(' - ')[1].rsplit(' (', 1)[1][:-1],
-                                 'probability': prob}
-                                for label, prob in zip(model.classes_, probabilities)]
+        career_probabilities = [{'predictedProgram': program,
+                                    'predictedCollegeName': college_and_type.rsplit(' (', 1)[0],
+                                    'predictedCollegeType': college_and_type.rsplit(' (', 1)[1][:-1],
+                                    'probability': prob}
+                                    for program, college_and_type, prob in zip(programs, colleges_and_types, probabilities)]
 
         # Filter careers based on probability (greater than 0.01)
         filtered_careers = [career for career in career_probabilities if career['probability'] > 0.001]
