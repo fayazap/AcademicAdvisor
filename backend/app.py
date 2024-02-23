@@ -175,9 +175,13 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
+        # Generate an access token for the new user
+        access_token = create_access_token(identity=new_user.id)
+
         print(f"User created successfully: {new_user}")
 
-        return jsonify({'message': 'User created successfully'}), 201
+        # Return the access token along with a success message
+        return jsonify({'message': 'User created successfully', 'access_token': access_token}), 201
 
     except Exception as e:
         print(f"Error in signup route: {str(e)}")
