@@ -6,12 +6,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: #2d0e83b4;
+    background-color: #9481c78e;
     color: white;
   }
   
   .logo_image {
     max-width: 100px; /* Adjust the size as needed */
+    border-radius: 80%;
   }
   
   .navbar_list {
@@ -27,7 +28,7 @@
           text-decoration: none;
           font-weight: bold;
   
-          &.active {
+          &.active, &:hover{
             border-bottom: 2px solid white;
           }
         }

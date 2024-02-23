@@ -168,6 +168,30 @@ def signup():
     except Exception as e:
         print(f"Error in signup route: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 500
+    
+@app.route('/get_user_details', methods=['GET'])
+@jwt_required()
+def get_user_details():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.filter_by(id=current_user_id).first()
+
+        if user:
+            user_details = {
+                'id': user.id,
+                'name': user.name,
+                'username': user.username,
+                'email': user.email,
+                # Add any other user details you want to expose
+            }
+
+            return jsonify({'user_details': user_details}), 200
+        else:
+            return jsonify({'error': 'User not found'}), 404
+
+    except Exception as e:
+        print(f"Error in get_user_details route: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

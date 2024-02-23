@@ -1,5 +1,6 @@
 // LogoutButton.js
 import React from 'react';
+import '../styles/LogoutButton.css';
 
 const LogoutButton = () => {
 

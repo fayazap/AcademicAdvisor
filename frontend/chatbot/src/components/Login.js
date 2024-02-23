@@ -1,5 +1,8 @@
+// Login.js
+
 import React, { useState } from 'react';
 import CareerChatbot from './CareerChatbot';
+import '../styles/Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,7 +31,6 @@ const Login = () => {
         // Render CareerChatbot directly after successful login 
         window.location.href = '/chatbot';
         return <CareerChatbot />;
-        
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -36,16 +38,33 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className='login-wrapper'>
+    <div className="login-container">
+      <div className="login-logo">
+        <img src="/Images/logo.png" alt="Logo" className="login_logo_image" />
+      </div>
       <h2>Login</h2>
-      <label>Email:</label>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <div className="login-input-section">
+      <input
+      className='login-input'
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
       <br />
-      <label>Password:</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <input
+      className='login-input'
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <br />
-      <button onClick={handleLogin}>Login</button>
-      New User? <a href="/signup">Signup</a>
+      </div>
+      <button className='login-button' onClick={handleLogin}>Login</button>
+      <p>New User? <a href="/signup">Signup</a></p>
+    </div>
     </div>
   );
 };

@@ -1,0 +1,13 @@
+/* Add this to your existing Navbar.css file or create a new CSS file */
+.logout-button {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background: none;
+    border: none;
+    font-size: medium;
+    &:hover {
+      border-bottom: 2px solid white;
+    }
+  }
+  

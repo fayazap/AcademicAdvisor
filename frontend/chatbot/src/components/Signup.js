@@ -1,4 +1,8 @@
+// Signup.js
+
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import '../styles/Signup.css';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -20,7 +24,7 @@ const Signup = () => {
       const data = await response.json();
       console.log(data); // Log the response from the server
 
-      if(response.ok) {
+      if (response.ok) {
         window.location.href = '/chatbot';
       }
 
@@ -31,21 +35,23 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className='signup-wrapper'>
+    <div className="signup-container">
+      <div className="signup-logo">
+        <img src="/Images/logo.png" alt="Logo" className="signup_logo_image" />
+      </div>
       <h2>Signup</h2>
-      <label>Name:</label>
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      <input className='signup-input' type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
       <br />
-      <label>Username:</label>
-      <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+      <input className='signup-input' type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
       <br />
-      <label>Email:</label>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input className='signup-input' type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <br />
-      <label>Password:</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <input className='signup-input' type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <br />
-      <button onClick={handleSignup}>Signup</button>
+      <button className='signup-button' onClick={handleSignup}>Signup</button>
+      <p>Already have an account? <Link to="/">Login</Link></p>
+    </div>
     </div>
   );
 };

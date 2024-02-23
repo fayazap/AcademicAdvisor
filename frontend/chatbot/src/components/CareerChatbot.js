@@ -42,12 +42,12 @@ const CareerChatbot = () => {
   };
 
   return (
-    <div>
+    <div className='career-chatbot-wrapper'>
       <Navbar />
 
       <div className="chatbot-container">
         <h1>Career Chatbot</h1>
-        <form onSubmit={handleSubmit}>
+        <form className='chatbot-form' onSubmit={handleSubmit}>
           <div className="input-section">
             <img src="./Images/user.png" alt="User Logo" className="user-logo" />
             <input
@@ -94,7 +94,9 @@ const CareerChatbot = () => {
             )}
           </div>
         )}
-        <ChatHistory />
+        <div className="chatHistory">
+          <ChatHistory />
+        </div>
       </div>
     </div>
   );

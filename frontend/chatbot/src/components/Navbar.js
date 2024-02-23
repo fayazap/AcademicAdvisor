@@ -17,12 +17,14 @@ const Navbar = () => {
   return (
     <div>
       <div className="navbar">
+        <Link to="/chatbot">
         <img
-          src="/images/Logo.png"
+          src="/Images/Logo.png"
           alt="Logo"
           border="0"
           className="logo_image"
         />
+        </Link>
         <div className="navbar_list">
           <ul>
             <li>

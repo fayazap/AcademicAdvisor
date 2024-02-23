@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from 'react';
-//import '../styles/ChatHistory.css'; // Add your CSS file if needed
+import '../styles/ChatHistory.css'; 
 
 const ChatHistory = () => {
   const [chatHistory, setChatHistory] = useState([]);
+
+  const formatTimestamp = (timestamp) => {
+    const options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false, // Use 24-hour format
+    };
+
+    return new Intl.DateTimeFormat('en-US', options).format(new Date(timestamp));
+  };
 
   useEffect(() => {
     // Fetch chat history using user_id when the component mounts
@@ -52,7 +65,7 @@ const ChatHistory = () => {
                   ))}
                 </p>
               </div>
-              <p className="timestamp">Timestamp: {entry.timestamp}</p>
+              <p className="timestamp">{formatTimestamp(entry.timestamp)}</p>
             </li>
           ))}
         </ul>
