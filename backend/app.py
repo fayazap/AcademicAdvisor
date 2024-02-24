@@ -25,7 +25,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 # Load and prepare the dataset (Replace with your actual dataset)
-dataset_path = '../dataset/modified_dataset.csv'
+dataset_path = '../dataset/final10k.csv'
 df = pd.read_csv(dataset_path)
 
 # Combine multiline strings into a single line, separating interests with commas
