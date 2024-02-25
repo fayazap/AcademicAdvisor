@@ -1,0 +1,26 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+  <h3>Dashboard</h3>
+  <p>Number of users: {{ num_users }}</p>
+
+  <h4>Chat Usage Statistics</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>User Name</th>
+        <th>Chat Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user_chat_count in user_chat_counts %}
+        <tr>
+          <td>{{ user_chat_count.user_id }}</td>
+          <td>{{ user_chat_count.user_name }}</td>
+          <td>{{ user_chat_count.chat_count }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

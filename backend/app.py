@@ -9,6 +9,8 @@ from models import db, User, ChatHistory
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView 
 
 app = Flask(__name__)
 CORS(app)
@@ -37,6 +39,13 @@ X, y = df['passion_interest'].astype(str), df['programme'] + ' - ' + df['College
 model = make_pipeline(CountVectorizer(), MultinomialNB())
 model.fit(X, y)
 
+# Initialize Flask-Admin
+admin = Admin(app, name='Admin Panel', template_mode='bootstrap3')
+
+# Add views for User and ChatHistory models
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(ChatHistory, db.session))
+
 @app.route('/predict_career', methods=['POST'])
 @jwt_required()
 def predict_career():
@@ -49,16 +58,16 @@ def predict_career():
         if not user_input:
             return jsonify({'error': 'Empty user input'}), 400
 
-        print(f"user_input: {user_input}")
+        # print(f"user_input: {user_input}")
 
-        # Check the format of df
-        print(f"DataFrame columns: {df.columns}")
-        print(f"DataFrame head: {df.head()}")
+        # # Check the format of df
+        # print(f"DataFrame columns: {df.columns}")
+        # print(f"DataFrame head: {df.head()}")
 
-        # Check the shape and contents of model.classes_
-        print(f"Model classes: {model.classes_}")
-        if model.classes_ is None or len(model.classes_) == 0:
-            return jsonify({'error': 'No classes found in the model'}), 500
+        # # Check the shape and contents of model.classes_
+        # print(f"Model classes: {model.classes_}")
+        # if model.classes_ is None or len(model.classes_) == 0:
+        #     return jsonify({'error': 'No classes found in the model'}), 500
         
         split_classes = [label.rsplit(' - ', 1) for label in model.classes_]
         programs, colleges_and_types = zip(*split_classes)
@@ -171,6 +180,11 @@ def signup():
 
         if not name or not username or not email or not password:
             return jsonify({'error': 'All fields are required'}), 400
+
+        # Check if the username already exists
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            return jsonify({'error': 'Username already exists. Please choose a different username.'}), 400
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
