@@ -74,8 +74,8 @@ const CareerChatbot = () => {
                 {Array.isArray(predictedCareers.predictedCareers) &&
                   predictedCareers.predictedCareers.length > 0 ? (
                     <ul>
-                      {predictedCareers.predictedCareers.map((career, index) => (
-                        <li key={index}>
+                      {predictedCareers.predictedCareers.map((career) => (
+                        <li key={career.probability}>
                           <p>
                             <span className="course-name">Program:</span> {career.predictedProgram}
                           </p>

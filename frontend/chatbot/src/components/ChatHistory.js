@@ -54,7 +54,7 @@ const ChatHistory = () => {
       ) : (
         <ul>
           {chatHistory.map((entry) => (
-            <li key={entry.timestamp} className="chat-entry">
+            <li key={entry.id} className="chat-entry">
               <div className="entry-details">
                 <p className="user-input">User Input: {entry.user_input}</p>
                 <p className="chatbot-response">
