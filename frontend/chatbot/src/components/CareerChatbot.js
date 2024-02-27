@@ -32,7 +32,6 @@ const CareerChatbot = () => {
 
       const data = await response.json();
       setPredictedCareer(data);
-
       setError(null); // Clear any previous errors
     } catch (error) {
       setPredictedCareer('');
@@ -52,14 +51,14 @@ const CareerChatbot = () => {
             <img src="./Images/user.png" alt="User Logo" className="user-logo" />
             <input
               className='input-box'
-              placeholder='Enter your interest...'
+              placeholder='Enter your prompt...'
               type="text"
               name="user_input"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               required
             />
-            <button type="submit" className='predict-button'>Predict Career</button>
+            <button type="submit" className='predict-button'>Submit</button>
           </div>
         </form>
         {userInput && (
@@ -89,7 +88,9 @@ const CareerChatbot = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>No predicted careers available.</p>
+                    userInput !== 'hi' && userInput !== 'hello' && userInput !== 'Hi' && userInput !== 'Hello' ? (
+                      <p>No predicted careers available.</p>
+                    ) : null
                   )}
                   </div>
               </div>

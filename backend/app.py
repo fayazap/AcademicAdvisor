@@ -27,7 +27,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 # Load and prepare the dataset (Replace with your actual dataset)
-dataset_path = '../dataset/outputBook2.csv'
+dataset_path = '../dataset/61k.csv'
 df = pd.read_csv(dataset_path)
 
 # Combine multiline strings into a single line, separating interests with commas
@@ -46,6 +46,7 @@ admin = Admin(app, name='Admin Panel', template_mode='bootstrap3')
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(ChatHistory, db.session))
 
+
 @app.route('/predict_career', methods=['POST'])
 @jwt_required()
 def predict_career():
@@ -57,46 +58,54 @@ def predict_career():
 
         if not user_input:
             return jsonify({'error': 'Empty user input'}), 400
-
-        # print(f"user_input: {user_input}")
-
-        # # Check the format of df
-        # print(f"DataFrame columns: {df.columns}")
-        # print(f"DataFrame head: {df.head()}")
-
-        # # Check the shape and contents of model.classes_
-        # print(f"Model classes: {model.classes_}")
-        # if model.classes_ is None or len(model.classes_) == 0:
-        #     return jsonify({'error': 'No classes found in the model'}), 500
         
-        split_classes = [label.rsplit(' - ', 1) for label in model.classes_]
-        programs, colleges_and_types = zip(*split_classes)
+        current_user_id = get_jwt_identity()
+        user = User.query.filter_by(id=current_user_id).first()
 
-        # Get probability estimates for all classes
-        probabilities = model.predict_proba([user_input])[0]
+        if user:
+            username = user.username
 
-        # Create a list of dictionaries containing career and probability
-        career_probabilities = [{'predictedProgram': program,
-                                    'predictedCollegeName': college_and_type.rsplit(' (', 1)[0],
-                                    'predictedCollegeType': college_and_type.rsplit(' (', 1)[1][:-1],
-                                    'probability': prob}
-                                    for program, college_and_type, prob in zip(programs, colleges_and_types, probabilities)]
+        if user_input == 'hi' or user_input == 'hello':
+            return jsonify({'message': f'Hello {username}! mention your passion and interests?'}), 200
+        
+        else:
+            # Check the format of df
+            print(f"DataFrame columns: {df.columns}")
+            print(f"DataFrame head: {df.head()}")
 
-        # Filter careers based on probability (greater than 0.01)
-        filtered_careers = [career for career in career_probabilities if career['probability'] > 0.001]
+            # Check the shape and contents of model.classes_
+            print(f"Model classes: {model.classes_}")
+            if model.classes_ is None or len(model.classes_) == 0:
+                return jsonify({'error': 'No classes found in the model'}), 500
+            
+            split_classes = [label.rsplit(' - ', 1) for label in model.classes_]
+            programs, colleges_and_types = zip(*split_classes)
 
-        # Sort filtered careers based on probability in descending order
-        sorted_careers = sorted(filtered_careers, key=lambda x: x['probability'], reverse=True)[:10]
+            # Get probability estimates for all classes
+            probabilities = model.predict_proba([user_input])[0]
 
-        save_chat_history(current_user_id, user_input, sorted_careers)
+            # Create a list of dictionaries containing career and probability
+            career_probabilities = [{'predictedProgram': program,
+                                        'predictedCollegeName': college_and_type.rsplit(' (', 1)[0],
+                                        'predictedCollegeType': college_and_type.rsplit(' (', 1)[1][:-1],
+                                        'probability': prob}
+                                        for program, college_and_type, prob in zip(programs, colleges_and_types, probabilities)]
 
-        response_data = {
-            'userInput': user_input,
-            'predictedCareers': sorted_careers,
-            'message': f"We suggest considering the following programs and colleges."
-        }
+            # Filter careers based on probability (greater than 0.01)
+            filtered_careers = [career for career in career_probabilities if career['probability'] > 0.001]
 
-        return jsonify(response_data)
+            # Sort filtered careers based on probability in descending order
+            sorted_careers = sorted(filtered_careers, key=lambda x: x['probability'], reverse=True)[:10]
+
+            save_chat_history(current_user_id, user_input, sorted_careers)
+
+            response_data = {
+                'userInput': user_input,
+                'predictedCareers': sorted_careers,
+                'message': f"We suggest considering the following programs and colleges."
+            }
+
+            return jsonify(response_data)
 
     except Exception as e:
         print(f"Error in predict_career route: {str(e)}")
