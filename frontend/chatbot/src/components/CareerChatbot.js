@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/CareerChatbot.css';
-import LogoutButton from './LogoutButton';
-import ChatHistory from './ChatHistory';
+// import LogoutButton from './LogoutButton';
+// import ChatHistory from './ChatHistory';
 import Navbar from './Navbar';
 
 const CareerChatbot = () => {
@@ -84,12 +84,13 @@ const CareerChatbot = () => {
                           <p>
                             <span className="course-name">College Type:</span> {career.predictedCollegeType}
                           </p>
+                          
                         </li>
                       ))}
                     </ul>
                   ) : (
                     userInput !== 'hi' && userInput !== 'hello' && userInput !== 'Hi' && userInput !== 'Hello' ? (
-                      <p>No predicted careers available.</p>
+                      <p></p>
                     ) : null
                   )}
                   </div>
@@ -97,9 +98,9 @@ const CareerChatbot = () => {
             )}
           </div>
         )}
-        <div className="chatHistory">
+        {/* <div className="chatHistory">
           <ChatHistory />
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/ChatHistory.css';
+import '../styles/ChatHistory.css'; 
 
 const ChatHistory = () => {
   const [chatHistory, setChatHistory] = useState([]);
@@ -34,8 +34,7 @@ const ChatHistory = () => {
         const data = await response.json();
 
         if (response.ok) {
-          // Reverse the order of chat history to display the latest entries first
-          setChatHistory(data.chat_history.reverse());
+          setChatHistory(data.chat_history);
         } else {
           console.error('Error fetching chat history:', data.error);
         }

@@ -27,7 +27,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 # Load and prepare the dataset (Replace with your actual dataset)
-dataset_path = '../dataset/61k.csv'
+dataset_path = '../dataset/completed.csv'
 df = pd.read_csv(dataset_path)
 
 # Combine multiline strings into a single line, separating interests with commas
@@ -92,10 +92,10 @@ def predict_career():
                                         for program, college_and_type, prob in zip(programs, colleges_and_types, probabilities)]
 
             # Filter careers based on probability (greater than 0.01)
-            filtered_careers = [career for career in career_probabilities if career['probability'] > 0.001]
+            # filtered_careers = [career for career in career_probabilities if career['probability'] > 0.001]
 
             # Sort filtered careers based on probability in descending order
-            sorted_careers = sorted(filtered_careers, key=lambda x: x['probability'], reverse=True)[:10]
+            sorted_careers = sorted(career_probabilities, key=lambda x: x['probability'], reverse=True)[:10]
 
             save_chat_history(current_user_id, user_input, sorted_careers)
 

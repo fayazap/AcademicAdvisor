@@ -8,6 +8,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [accessToken, setAccessToken] = useState(null);
+  const [error, setError] = useState('');
 
   const handleSignup = async () => {
     try {
@@ -33,11 +34,14 @@ const Signup = () => {
 
         // Redirect to the chatbot page or perform other actions based on the response
         window.location.href = '/chatbot';
+      } else if (response.status === 400) {
+        setError(data.error);
+      } else {
+        setError('An error occurred. Please try again later.');
       }
-
-      // Handle other cases based on the response
     } catch (error) {
       console.error('Signup error:', error);
+      setError('An error occurred. Please try again later.');
     }
   };
 
@@ -80,6 +84,7 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
+        {error && <p className="error-message">{error}</p>}
         <button className='signup-button' onClick={handleSignup}>Signup</button>
         <p>Already have an account? <Link to="/">Login</Link></p>
       </div>

@@ -30,7 +30,9 @@ except FileNotFoundError:
 try:
     for index, row in df.iloc[last_successful_index:].iterrows():
         prompt = row['programme']
-        prompt_text = f"list the interests and passion which may lead a student to take {prompt} course. just list them in text do not explain them without any heading in points. always use asterisk symbol for points"
+        prompt2 = row['discipline_group']
+        prompt3 = row['discipline']
+        prompt_text = f"list the interests and passion which may lead a student to take {prompt} course in {prompt2} discipline group specifically in {prompt3} discipline. just list them in text do not explain them without any heading in points. always use asterisk symbol for points"
 
         # Use response.parts[0].text or the alternative accessor
         try:
