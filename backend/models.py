@@ -15,6 +15,7 @@ class User(db.Model):
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
     jwt_token = db.Column(db.Text)  # Add this line
+    reset_password_token = db.Column(db.Text)  # Add this line
 
     def __repr__(self):
         return f"User(id={self.id}, name={self.name}, username={self.username}, email={self.email})"

@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/UserDetails.css';
 
 const UserDetails = () => {
   const [userDetails, setUserDetails] = useState(null);
+  const [changePassword, setChangePassword] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-    useEffect(() => {
+  useEffect(() => {
     // Function to fetch user details
     const fetchUserDetails = async () => {
       try {
@@ -33,6 +39,38 @@ const UserDetails = () => {
     fetchUserDetails();
   }, []); // Empty dependency array to run the effect only once
 
+  const handleChangePassword = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+
+      const response = await fetch('http://localhost:5000/change-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email: userDetails.user_details.email,
+          current_password: currentPassword,
+          new_password: newPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage(data.message);
+        setCurrentPassword('');
+        setNewPassword('');
+      } else {
+        setError(data.error);
+      }
+    } catch (error) {
+      console.error('Error changing password:', error);
+      setError('An error occurred. Please try again later.');
+    }
+  };
+
   return (
     <div>
       {userDetails ? (
@@ -42,6 +80,33 @@ const UserDetails = () => {
           <p>Username: {userDetails.user_details.username}</p>
           <p>Email: {userDetails.user_details.email}</p>
           {/* Add any other user details you want to display */}
+          <p><b>Want to change the password?</b></p>
+          <button className='change-password-button' onClick={() => setChangePassword(!changePassword)}>Click Here</button>
+          {changePassword && (
+            <>
+            <br />
+            <input
+  type="password"
+  placeholder="Current Password"
+  value={currentPassword}
+  onChange={(e) => setCurrentPassword(e.target.value)}
+  className="password-input"
+/>
+<br />
+<input
+  type="password"
+  placeholder="New Password"
+  value={newPassword}
+  onChange={(e) => setNewPassword(e.target.value)}
+  className="password-input"
+/>
+
+          <br />
+          <button className='login-button' onClick={handleChangePassword}>Update</button>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+          </>
+          )}
         </div>
       ) : (
         <p>Loading user details...</p>

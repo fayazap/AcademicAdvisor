@@ -6,6 +6,13 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [forgotPassword2, setForgotPassword2] = useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+  const [forgotPasswordMessage, setForgotPasswordMessage] = useState('');
+  const [resetToken, setResetToken] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [resetPasswordMessage, setResetPasswordMessage] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -37,6 +44,53 @@ const Login = () => {
     }
   };
 
+  const handleForgotPassword = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: forgotPasswordEmail }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setForgotPasswordMessage(data.message);
+        setForgotPassword2(true);
+      } else {
+        setForgotPasswordMessage(data.error);
+      }
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      setForgotPasswordMessage('An error occurred. Please try again later.');
+    }
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, token: resetToken, new_password: newPassword }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setResetPasswordMessage(data.message);
+      } else {
+        setResetPasswordMessage(data.error);
+      }
+    } catch (error) {
+      console.error('Reset password error:', error);
+      setResetPasswordMessage('An error occurred. Please try again later.');
+    }
+  };
+
   return (
     <div className='login-wrapper'>
       <div className="login-container">
@@ -61,10 +115,58 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <br />
+          {error && <p className="error-message">{error}</p>}
+          <button className='login-button' onClick={handleLogin}>Login</button>
+          <p>New User? <a href="/signup">Signup</a></p>
         </div>
-        {error && <p className="error-message">{error}</p>}
-        <button className='login-button' onClick={handleLogin}>Login</button>
-        <p>New User? <a href="/signup">Signup</a></p>
+        <p><b>Forgot Password?</b>
+        <button className='forgot-password-button' onClick={() => setForgotPassword(!forgotPassword)}>Click Here</button></p>
+
+        {forgotPassword && (
+          <>
+        <div className="forgot-password-section">
+          <input
+            className='login-input'
+            type="email"
+            placeholder="Enter email for password reset"
+            value={forgotPasswordEmail}
+            onChange={(e) => setForgotPasswordEmail(e.target.value)}
+          />
+          <button className='login-button' onClick={handleForgotPassword}>Forgot Password</button>
+          {forgotPasswordMessage && <p className="forgot-password-message">{forgotPasswordMessage}</p>}
+        </div>
+        {forgotPassword2 && (
+          <>
+        <div className="reset-password-section">
+        <input
+            className='login-input'
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          
+          <input
+            className='login-input'
+            type="text"
+            placeholder="Enter token"
+            value={resetToken}
+            onChange={(e) => setResetToken(e.target.value)}
+          />
+          <input
+            className='login-input'
+            type="password"
+            placeholder="Enter new password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <button className='login-button' onClick={handleResetPassword}>Reset Password</button>
+          {resetPasswordMessage && <p className="reset-password-message">{resetPasswordMessage}</p>}
+        </div>
+        </>
+        )}
+        </>
+        )}
       </div>
     </div>
   );
