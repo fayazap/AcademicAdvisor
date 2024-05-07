@@ -86,7 +86,7 @@ const Signup = () => {
         <br />
         {error && <p className="error-message">{error}</p>}
         <button className='signup-button' onClick={handleSignup}>Signup</button>
-        <p>Already have an account? <Link to="/">Login</Link></p>
+        <p><b>Already have an account?</b> <button className='forgot-password-button'><Link className='signup-link' to="/">Login</Link></button></p>
       </div>
     </div>
   );

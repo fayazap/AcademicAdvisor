@@ -81,6 +81,11 @@
   .login-button:hover {
     background-color: #2d0e83b4;
   }
+
+  .signup-link{
+    color: #ffffff;
+    text-decoration: none;
+  }
   
   .forgot-password-button{
     background-color: #a73658;

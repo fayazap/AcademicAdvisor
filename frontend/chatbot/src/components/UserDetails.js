@@ -4,8 +4,10 @@ import '../styles/UserDetails.css';
 const UserDetails = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [changePassword, setChangePassword] = useState(false);
+  const [changeUsername, setChangeUsername] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [newUsername, setNewUsername] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -71,6 +73,35 @@ const UserDetails = () => {
     }
   };
 
+  const handleChangeUsername = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+
+      const response = await fetch('http://localhost:5000/change-username', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          new_username: newUsername,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage(data.message);
+        setNewUsername('');
+      } else {
+        setError(data.error);
+      }
+    } catch (error) {
+      console.error('Error changing username:', error);
+      setError('An error occurred. Please try again later.');
+    }
+  };
+
   return (
     <div>
       {userDetails ? (
@@ -80,32 +111,50 @@ const UserDetails = () => {
           <p>Username: {userDetails.user_details.username}</p>
           <p>Email: {userDetails.user_details.email}</p>
           {/* Add any other user details you want to display */}
+          <p><b>Want to change the username?</b></p>
+          <button className='change-username-button' onClick={() => setChangeUsername(!changeUsername)}>Click Here</button>
+          {changeUsername && (
+            <>
+              <br />
+              <input
+                type="text"
+                placeholder="New Username"
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                className="username-input"
+              />
+              <br />
+              <button className='change-username-button' onClick={handleChangeUsername}>Update</button>
+              {error && <p style={{ color: 'red' }}>{error}</p>}
+              {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            </>
+          )}
+
           <p><b>Want to change the password?</b></p>
           <button className='change-password-button' onClick={() => setChangePassword(!changePassword)}>Click Here</button>
           {changePassword && (
             <>
-            <br />
-            <input
-  type="password"
-  placeholder="Current Password"
-  value={currentPassword}
-  onChange={(e) => setCurrentPassword(e.target.value)}
-  className="password-input"
-/>
-<br />
-<input
-  type="password"
-  placeholder="New Password"
-  value={newPassword}
-  onChange={(e) => setNewPassword(e.target.value)}
-  className="password-input"
-/>
-
-          <br />
-          <button className='login-button' onClick={handleChangePassword}>Update</button>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-          </>
+              <br />
+              <input
+                type="password"
+                placeholder="Current Password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className="password-input"
+              />
+              <br />
+              <input
+                type="password"
+                placeholder="New Password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="password-input"
+              />
+              <br />
+              <button className='login-button' onClick={handleChangePassword}>Update</button>
+              {error && <p style={{ color: 'red' }}>{error}</p>}
+              {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            </>
           )}
         </div>
       ) : (

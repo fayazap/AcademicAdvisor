@@ -117,7 +117,7 @@ const Login = () => {
           <br />
           {error && <p className="error-message">{error}</p>}
           <button className='login-button' onClick={handleLogin}>Login</button>
-          <p>New User? <a href="/signup">Signup</a></p>
+          <p><b>New User?</b> <button className='forgot-password-button'><a className='signup-link' href="/signup">Signup</a></button></p>
         </div>
         <p><b>Forgot Password?</b>
         <button className='forgot-password-button' onClick={() => setForgotPassword(!forgotPassword)}>Click Here</button></p>

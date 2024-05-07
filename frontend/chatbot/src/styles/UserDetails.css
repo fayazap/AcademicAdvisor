@@ -1,4 +1,4 @@
-.change-password-button{
+.change-password-button, .change-username-button{
     background-color: #a73658;
     color: #000000;
     padding: 5px;
@@ -7,7 +7,7 @@
     cursor: pointer;
     margin-bottom: 10px;
 }
-.password-input {
+.password-input, .username-input {
     padding: 10px;
     margin: 5px;
     border: 1px solid #ccc;
@@ -16,7 +16,7 @@
     font-size: 16px;
   }
   
-  .password-input:focus {
+  .password-input:focus, .username-input:focus {
     outline: none;
     border-color: dodgerblue;
     box-shadow: 0 0 5px dodgerblue;

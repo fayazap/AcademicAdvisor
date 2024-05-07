@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect, url_for, session
 from flask_cors import CORS
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -9,12 +9,11 @@ from models import db, User, ChatHistory
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView 
 from flask_mail import Mail, Message
 import smtplib
 import ssl
-import datetime
 import random
 import string
 from email.message import EmailMessage
@@ -34,25 +33,69 @@ migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-# Load and prepare the dataset (Replace with your actual dataset)
-dataset_path = '../dataset/completed.csv'
+# Load and prepare the dataset
+# Replace the path with the new dataset path
+dataset_path = '../dataset/first100.csv'
 df = pd.read_csv(dataset_path)
 
-# Combine multiline strings into a single line, separating interests with commas
-df['passion_interest'] = df['passion_interest'].str.replace('\n', ', ')
+# Drop rows with NaN values
+df.dropna(inplace=True)
 
-X, y = df['passion_interest'].astype(str), df['programme'] + ' - ' + df['College_name'] + ' (' + df['type'] + ')'
+# Reindex the DataFrame
+df.reset_index(drop=True, inplace=True)
+
+# Separate features (X) and target (y)
+X = df['passion_interest'].astype(str)
+y = df['Course'] + ' - ' + df['Name'] + ' (' + df['City'] + ', ' + df['State'] + ')'
 
 # Train the model
 model = make_pipeline(CountVectorizer(), MultinomialNB())
 model.fit(X, y)
 
-# Initialize Flask-Admin
-admin = Admin(app, name='Admin Panel', template_mode='bootstrap3')
+class MyAdminIndexView(AdminIndexView):
+    @expose('/')
+    def index(self):
+        if not session.get('admin_logged_in'):
+            return redirect(url_for('.login'))
+        return super(MyAdminIndexView, self).index()
 
-# Add views for User and ChatHistory models
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(ChatHistory, db.session))
+    @expose('/login', methods=['GET', 'POST'])
+    def login(self):
+        if request.method == 'POST':
+            username = request.form.get('username')
+            password = request.form.get('password')
+            # Check admin credentials
+            if username == 'admin' and password == 'admin':
+                session['admin_logged_in'] = True
+                return redirect(url_for('.index'))
+            else:
+                return 'Invalid username or password'
+        return '''
+        <form method="post">
+            <h1>Admin Login</h1>
+            <label for="username">Username:</label>
+            <p><input type=text name=username>
+            <p><label for="password">Password:</label>
+            <p><input type=password name=password>
+            <p><input type=submit value=Login>
+        </form>
+        '''
+
+    @expose('/logout')
+    def logout(self):
+        session.pop('admin_logged_in', None)
+        return redirect(url_for('.index'))
+
+class AdminModelView(ModelView):
+    def is_accessible(self):
+        return session.get('admin_logged_in')
+
+# Initialize Flask-Admin
+admin = Admin(app, name='Admin Panel', template_mode='bootstrap3', index_view=MyAdminIndexView())
+
+# Add views for User and ChatHistory models with authentication
+admin.add_view(AdminModelView(User, db.session))
+admin.add_view(AdminModelView(ChatHistory, db.session))
 
 
 @app.route('/predict_career', methods=['POST'])
@@ -87,22 +130,22 @@ def predict_career():
                 return jsonify({'error': 'No classes found in the model'}), 500
             
             split_classes = [label.rsplit(' - ', 1) for label in model.classes_]
-            programs, colleges_and_types = zip(*split_classes)
+            courses, names_cities_states = zip(*split_classes)
 
             # Get probability estimates for all classes
             probabilities = model.predict_proba([user_input])[0]
 
-            # Create a list of dictionaries containing career and probability
-            career_probabilities = [{'predictedProgram': program,
-                                        'predictedCollegeName': college_and_type.rsplit(' (', 1)[0],
-                                        'predictedCollegeType': college_and_type.rsplit(' (', 1)[1][:-1],
-                                        'probability': prob}
-                                        for program, college_and_type, prob in zip(programs, colleges_and_types, probabilities)]
+            # Create a list of dictionaries containing career, probability, and website link
+            career_probabilities = [{
+                'predictedCourse': course,
+                'predictedInstitute': name_city_state.rsplit(' (', 1)[0],
+                'predictedCity': name_city_state.rsplit(' (', 1)[1].split(', ')[0],
+                'predictedState': name_city_state.rsplit(' (', 1)[1].split(', ')[1][:-1],
+                'probability': prob,
+                'website': df.loc[df['Course'] == course.split(' - ')[0], 'Website'].values[0] if course.split(' - ')[0] in df['Course'].values else ''
+            } for course, name_city_state, prob in zip(courses, names_cities_states, probabilities)]
 
-            # Filter careers based on probability (greater than 0.01)
-            # filtered_careers = [career for career in career_probabilities if career['probability'] > 0.001]
-
-            # Sort filtered careers based on probability in descending order
+            # Sort careers based on probability in descending order
             sorted_careers = sorted(career_probabilities, key=lambda x: x['probability'], reverse=True)[:10]
 
             save_chat_history(current_user_id, user_input, sorted_careers)
@@ -110,7 +153,7 @@ def predict_career():
             response_data = {
                 'userInput': user_input,
                 'predictedCareers': sorted_careers,
-                'message': f"We suggest considering the following programs and colleges."
+                'message': f"We suggest considering the following courses and institutes."
             }
 
             return jsonify(response_data)
@@ -118,6 +161,8 @@ def predict_career():
     except Exception as e:
         print(f"Error in predict_career route: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -358,6 +403,36 @@ def get_user_details():
 
     except Exception as e:
         print(f"Error in get_user_details route: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/change-username', methods=['POST'])
+@jwt_required()  # Requires authentication
+def change_username():
+    try:
+        data = request.json
+        new_username = data.get('new_username')
+
+        if not new_username:
+            return jsonify({'error': 'New username is required'}), 400
+
+        current_user_id = get_jwt_identity()
+        user = User.query.filter_by(id=current_user_id).first()
+
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
+        # Check if the new username is already taken
+        existing_user = User.query.filter_by(username=new_username).first()
+        if existing_user:
+            return jsonify({'error': 'Username already exists'}), 409
+
+        # Update the username
+        user.username = new_username
+        db.session.commit()
+
+        return jsonify({'message': 'Username changed successfully'}), 200
+
+    except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':

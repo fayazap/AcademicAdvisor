@@ -7,9 +7,11 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import ChatHistory from './components/ChatHistory';
 import Profile from './components/Profile';
+import AdminLogin from './components/Admin-Login';
 
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
+  { path: "/admin/login", element: <AdminLogin />},
   { path: "/signup", element: <Signup /> },
   { path: "/chatbot", element: <CareerChatbot /> },
   { path: "/history", element: <ChatHistory /> },

@@ -3,12 +3,12 @@ import pandas as pd
 from requests.exceptions import ReadTimeout
 
 # Replace 'YOUR_API_KEY' with your actual API key
-genai.configure(api_key='AIzaSyAosQlw7q4_AmavtR4LN7dFwcQHV15qvWM')
+genai.configure(api_key='AIzaSyCAVf_1UruvuIjqXb0JxFPymvXVyexi-EA')
 
 model = genai.GenerativeModel('gemini-pro')
 
 # Load Excel file into a DataFrame
-df = pd.read_csv('Book3-1-7.csv', encoding='latin-1')
+df = pd.read_csv('nirfirst.csv', encoding='latin-1')
 
 # Create a new column for generated responses
 df['passion_interest'] = ""
@@ -29,10 +29,8 @@ except FileNotFoundError:
 # Iterate through rows and make API requests, starting from the last successful index
 try:
     for index, row in df.iloc[last_successful_index:].iterrows():
-        prompt = row['programme']
-        prompt2 = row['discipline_group']
-        prompt3 = row['discipline']
-        prompt_text = f"list the interests and passion which may lead a student to take {prompt} course in {prompt2} discipline group specifically in {prompt3} discipline. just list them in text do not explain them without any heading in points. always use asterisk symbol for points"
+        prompt = row['Course']
+        prompt_text = f"list the interests and passion which may lead a student to take {prompt} course. just list them in text do not explain them without any heading in points. always use asterisk symbol for points"
 
         # Use response.parts[0].text or the alternative accessor
         try:
