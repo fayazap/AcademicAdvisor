@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/ChatHistory.css'; 
+import Navbar from './Navbar';
 
 const ChatHistory = () => {
   const [chatHistory, setChatHistory] = useState([]);
@@ -47,7 +48,10 @@ const ChatHistory = () => {
   }, []);
 
   return (
+    <div className="chat-history">
+      <Navbar />
     <div className="chat-history-container">
+      
       <h2>Chat History</h2>
       {chatHistory.length === 0 ? (
         <p>No chat history available.</p>
@@ -70,6 +74,7 @@ const ChatHistory = () => {
           ))}
         </ul>
       )}
+    </div>
     </div>
   );
 };

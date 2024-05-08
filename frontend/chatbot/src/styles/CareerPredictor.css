@@ -1,0 +1,112 @@
+/* Chatbot Container */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: radial-gradient(circle, #b98686, #6a2929);
+  }
+  
+  * {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+.career-predictor-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.home-page{
+    background: radial-gradient(circle, #b98686, #6a2929); 
+}
+
+.career-predictor-container{
+    background: radial-gradient(circle, #b98686, #6a2929); 
+}
+
+/* Chat Container */
+.chat-container {
+    width: 50%;
+    height: max-content;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Chat Box */
+.chat-box {
+    padding: 20px;
+    background: radial-gradient(circle, #b98686, #6a2929); 
+    height: 300px;
+    overflow-y: auto;
+}
+
+/* Message Styles */
+.message {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    max-width: 80%;
+}
+
+.user {
+    background-color: #007bff;
+    color: #ffffff;
+    align-self: flex-end;
+}
+
+.bot {
+    background-color: #f0f0f0;
+    color: #333333;
+    align-self: flex-start;
+}
+
+.message-text {
+    word-wrap: break-word;
+}
+
+/* Chat Input */
+.chat-input {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #ffffff;
+}
+
+.user-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+.bot-logo, .user-logo {
+    max-width: 40px;
+    margin-right: 10px;
+  }
+
+.submit-btn {
+    margin-left: 8px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}

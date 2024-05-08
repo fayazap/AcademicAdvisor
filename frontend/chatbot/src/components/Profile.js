@@ -12,9 +12,6 @@ const Profile = () => {
         <div className='profile-header'>
         </div>
         <div className='profile-content'>
-          <div className='chat-history-section'>
-            <ChatHistory />
-          </div>
           <div className='user-details-section'>
             <UserDetails />
           </div>

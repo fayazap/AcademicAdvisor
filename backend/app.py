@@ -14,10 +14,22 @@ from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail, Message
 import smtplib
 import ssl
+import numpy as np
 import random
 import string
 from email.message import EmailMessage
 from flask_bcrypt import check_password_hash
+
+
+from datetime import datetime
+from flask import Flask, request, jsonify
+import random
+import json
+import pickle
+import numpy as np
+import nltk
+from nltk.stem import WordNetLemmatizer
+from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
 CORS(app)
@@ -35,7 +47,7 @@ jwt = JWTManager(app)
 
 # Load and prepare the dataset
 # Replace the path with the new dataset path
-dataset_path = '../dataset/first100.csv'
+dataset_path = '../dataset/type.csv'
 df = pd.read_csv(dataset_path)
 
 # Drop rows with NaN values
@@ -51,6 +63,105 @@ y = df['Course'] + ' - ' + df['Name'] + ' (' + df['City'] + ', ' + df['State'] +
 # Train the model
 model = make_pipeline(CountVectorizer(), MultinomialNB())
 model.fit(X, y)
+
+lemmatizer = WordNetLemmatizer()
+intents = json.loads(open('intents.json').read())
+words = pickle.load(open('words.pkl', 'rb'))
+classes = pickle.load(open('classes.pkl', 'rb'))
+model = load_model('chatbot_model.keras')
+
+def clean_up_sentence(sentence):
+    sentence_words = nltk.word_tokenize(sentence)
+    sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words if word.isalnum()]
+    return sentence_words
+
+def bag_of_words(sentence):
+    sentence_words = clean_up_sentence(sentence)
+    bag = [0] * len(words)
+    for w in sentence_words:
+        for i, word in enumerate(words):
+            if word == w:
+                bag[i] = 1
+    return np.array(bag)
+
+def preprocess_input(bow, expected_shape):
+    """
+    Preprocesses the input 'bow' to match the expected input shape.
+    If 'bow' doesn't match the expected shape, it will be reshaped or padded.
+    """
+    # Check if the shape of 'bow' matches the expected input shape
+    if bow.shape != expected_shape:
+        # Perform necessary preprocessing to match the expected shape
+        # Example: Reshape or pad 'bow' to match 'expected_shape'
+        bow = np.resize(bow, expected_shape)  # Adjust based on your model's input requirements
+    return bow
+
+def predict_class(sentence):
+    sentences = sentence.split(',')
+    return_list = []
+    for sentence in sentences:
+        sentence = sentence.strip()
+        sentence = sentence.replace(',', ' ')
+        bow = bag_of_words(sentence)
+        
+        # Preprocess 'bow' to match the expected input shape of your model
+        expected_shape = model.input_shape[1:]  # Get expected input shape from model
+        bow = preprocess_input(bow, expected_shape)
+        
+        # Predict using preprocessed 'bow'
+        res = model.predict(np.array([bow]))[0]
+        
+        ERROR_THRESHOLD = 0.25
+        results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
+        results.sort(key=lambda x: x[1], reverse=True)
+        for r in results:
+            return_list.append({'intent': classes[r[0]], 'probability': str(r[1])})
+    return return_list
+    
+def get_response(intents_list, intents_json):
+    current_user_id = get_jwt_identity()
+    user_input = request.form['user_input']  # Retrieve user input from the request
+
+    if not intents_list:
+        chatbot_response = "I'm sorry, I didn't quite catch that. Can you please provide more details or ask another question?"
+    else:
+        responses = {}
+        for intent in intents_json['intents']:
+            tags = intent['tag'].split(',')
+            for tag in tags:
+                responses[tag.strip()] = intent.get('responses', [])
+
+        result = []
+        unique_tags = set()
+        for intent_data in intents_list:
+            tags = [tag.strip() for tag in intent_data['intent'].strip().split(',')]
+            for tag in tags:
+                if tag in responses and tag not in unique_tags:
+                    unique_tags.add(tag)
+                    tag_responses = responses[tag]
+                    random_response = random.choice(tag_responses)
+                    result.append(random_response)
+
+        chatbot_response = '\n'.join(result) if result else "No responses found for provided tags."
+
+    # Create a new ChatHistory instance
+        chat_history = ChatHistory(user_id=current_user_id, user_input=user_input, chatbot_response=chatbot_response)
+
+        # Add the chat history to the database session
+        db.session.add(chat_history)
+
+        # Commit changes to the database
+        db.session.commit()
+
+    return chatbot_response
+
+@app.route('/chatbot', methods=['POST'])
+@jwt_required()
+def chatbot():
+    user_input = request.form['user_input']
+    ints = predict_class(user_input)
+    res = get_response(ints, intents)
+    return jsonify({'response': res})
 
 class MyAdminIndexView(AdminIndexView):
     @expose('/')
@@ -98,69 +209,69 @@ admin.add_view(AdminModelView(User, db.session))
 admin.add_view(AdminModelView(ChatHistory, db.session))
 
 
-@app.route('/predict_career', methods=['POST'])
-@jwt_required()
-def predict_career():
-    try:
-        current_user_id = get_jwt_identity()
-        print(f"user_id inside predict_career: user_id={current_user_id}")
+# @app.route('/predict_career', methods=['POST'])
+# @jwt_required()
+# def predict_career():
+#     try:
+#         current_user_id = get_jwt_identity()
+#         print(f"user_id inside predict_career: user_id={current_user_id}")
 
-        user_input = request.json.get('user_input', '').lower()
+#         user_input = request.json.get('user_input', '').lower()
 
-        if not user_input:
-            return jsonify({'error': 'Empty user input'}), 400
+#         if not user_input:
+#             return jsonify({'error': 'Empty user input'}), 400
         
-        current_user_id = get_jwt_identity()
-        user = User.query.filter_by(id=current_user_id).first()
+#         user = User.query.filter_by(id=current_user_id).first()
 
-        if user:
-            username = user.username
+#         if user:
+#             username = user.username
 
-        if user_input == 'hi' or user_input == 'hello':
-            return jsonify({'message': f'Hello {username}! mention your passion and interests?'}), 200
+#         if user_input.lower() in ['hi', 'hello']:
+#             return jsonify({'message': f'Hello {username}! Mention your passion and interests.'}), 200
         
-        else:
-            # Check the format of df
-            print(f"DataFrame columns: {df.columns}")
-            print(f"DataFrame head: {df.head()}")
+#         else:
+#             # Check the format of df
+#             print(f"DataFrame columns: {df.columns}")
+#             print(f"DataFrame head: {df.head()}")
 
-            # Check the shape and contents of model.classes_
-            print(f"Model classes: {model.classes_}")
-            if model.classes_ is None or len(model.classes_) == 0:
-                return jsonify({'error': 'No classes found in the model'}), 500
+#             # Check the shape and contents of model.classes_
+#             print(f"Model classes: {model.classes_}")
+#             if model.classes_ is None or len(model.classes_) == 0:
+#                 return jsonify({'error': 'No classes found in the model'}), 500
             
-            split_classes = [label.rsplit(' - ', 1) for label in model.classes_]
-            courses, names_cities_states = zip(*split_classes)
+#             split_classes = [label.rsplit(' - ', 1) for label in model.classes_]
+#             courses, names_cities_states = zip(*split_classes)
 
-            # Get probability estimates for all classes
-            probabilities = model.predict_proba([user_input])[0]
+#             # Get probability estimates for all classes
+#             probabilities = model.predict_proba([user_input])[0]
 
-            # Create a list of dictionaries containing career, probability, and website link
-            career_probabilities = [{
-                'predictedCourse': course,
-                'predictedInstitute': name_city_state.rsplit(' (', 1)[0],
-                'predictedCity': name_city_state.rsplit(' (', 1)[1].split(', ')[0],
-                'predictedState': name_city_state.rsplit(' (', 1)[1].split(', ')[1][:-1],
-                'probability': prob,
-                'website': df.loc[df['Course'] == course.split(' - ')[0], 'Website'].values[0] if course.split(' - ')[0] in df['Course'].values else ''
-            } for course, name_city_state, prob in zip(courses, names_cities_states, probabilities)]
+#             # Create a list of dictionaries containing career, probability, and website link
+#             career_probabilities = [{
+#                 'predictedCourse': course,
+#                 'predictedInstitute': name_city_state.rsplit(' (', 1)[0],
+#                 'predictedCity': name_city_state.rsplit(' (', 1)[1].split(', ')[0],
+#                 'predictedState': name_city_state.rsplit(' (', 1)[1].split(', ')[1][:-1],
+#                 'probability': prob,
+#                 'website': df.loc[df['Course'] == course.split(' - ')[0], 'Website'].values[0] if course.split(' - ')[0] in df['Course'].values else ''
+#             } for course, name_city_state, prob in zip(courses, names_cities_states, probabilities)]
 
-            # Sort careers based on probability in descending order
-            sorted_careers = sorted(career_probabilities, key=lambda x: x['probability'], reverse=True)[:10]
+#             # Sort careers based on probability in descending order
+#             sorted_careers = sorted(career_probabilities, key=lambda x: x['probability'], reverse=True)[:10]
 
-            save_chat_history(current_user_id, user_input, sorted_careers)
+#             save_chat_history(current_user_id, user_input, sorted_careers)
 
-            response_data = {
-                'userInput': user_input,
-                'predictedCareers': sorted_careers,
-                'message': f"We suggest considering the following courses and institutes."
-            }
+#             response_data = {
+#                 'userInput': user_input,
+#                 'predictedCareers': sorted_careers,
+#                 'message': f"We suggest considering the following courses and institutes."
+#             }
 
-            return jsonify(response_data)
+#             return jsonify(response_data)
 
-    except Exception as e:
-        print(f"Error in predict_career route: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+#     except Exception as e:
+#         print(f"Error in predict_career route: {str(e)}")
+#         return jsonify({'error': str(e)}), 500
+
 
 
 
@@ -306,7 +417,7 @@ def save_chat_history(user_id, user_input, sorted_careers):
         print(f"Saving chat history: user_id={user_id}, user_input={user_input}, sorted_careers={sorted_careers}")
 
         # Convert sorted_careers to a string or any other format that suits your needs
-        chatbot_response = ', '.join([f"{career['predictedProgram']} at {career['predictedCollegeName']}" for career in sorted_careers])
+        chatbot_response = ', '.join([f"{career['predictedCourse']} at {career['predictedInstitute']}" for career in sorted_careers])
 
         # Create a new ChatHistory instance
         chat_history = ChatHistory(user_id=user_id, user_input=user_input, chatbot_response=chatbot_response)
@@ -321,6 +432,11 @@ def save_chat_history(user_id, user_input, sorted_careers):
 
     except Exception as e:
         print(f"Error saving chat history: {str(e)}")
+        # Rollback changes if an error occurs
+        db.session.rollback()
+        raise  # Re-raise the exception for further handling in the calling code
+
+
 
 @app.route('/fetch_chat_history', methods=['GET'])
 @jwt_required()
@@ -331,6 +447,8 @@ def fetch_chat_history():
 
         # Fetch chat history for the specified user_id
         chat_history = ChatHistory.query.filter_by(user_id=current_user_id).all()
+
+        print(f"Chat history for user: user_id={current_user_id} chat_history={chat_history}")
 
         # Convert chat history to a list of dictionaries
         chat_history_data = [{'timestamp': entry.timestamp,

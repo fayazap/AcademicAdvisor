@@ -36,6 +36,14 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
+
+            <li>
+              <NavLink
+              to="/history"
+              className={({ isActive }) => (isActive ? "active" : undefined)}
+              >History</NavLink>
+            </li>
+
             <li>
               <NavLink
                 to="/profile"

@@ -1,0 +1,912 @@
+{
+  "intents": [
+    {
+      "tag": "fallback_response",
+      "patterns": ["*"],
+      "responses": [
+        "I'm sorry, I didn't quite catch that. Can you please provide more details or ask another question?"
+      ]
+    },
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey",
+        "Hai",
+        "Hiya",
+        "Hey there",
+        "Howdy",
+        "Greetings",
+        "Good morning",
+        "Good afternoon",
+        "Good evening",
+        "What's up?",
+        "Yo!",
+        "Hi there",
+        "Bonjour",
+        "Hola",
+        "Ciao",
+        "Salutations",
+        "Sup?"
+      ],
+      "responses": [
+        "Hello! How can I help you?",
+        "Hi there! Great to hear from you, need any help?"
+      ]
+    },
+    {
+      "tag": "yes",
+      "patterns": [
+        "yes",
+        "ya",
+        "yep",
+        "yeah",
+        "sure",
+        "absolutely",
+        "indeed",
+        "definitely",
+        "affirmative",
+        "certainly"
+      ],
+      "responses": ["Ok! How can I help you?", "Sure! How can I help you?"]
+    },
+    {
+      "tag": "No",
+      "patterns": ["No", "nope", "nah", "negative", "not at all"],
+      "responses": [
+        "Okay, no problem.",
+        "Understood.",
+        "Sure thing.",
+        "Alright, let me know if you change your mind."
+      ]
+    },
+    {
+      "tag": "interest",
+      "patterns": [
+        "I need guidance in selecting a career",
+        "Can you assist me in finding a suitable career path?",
+        "I'm unsure about my career direction, can you help?",
+        "How do I choose the right career?",
+        "What career options are available to me?",
+        "I'm looking for advice on career choices",
+        "What are my career prospects?",
+        "Can you provide career counseling?",
+        "Help me explore different career opportunities",
+        "I'm interested in finding my passion and career path"
+      ],
+
+      "responses": [
+        "Sure thing! What's your favorite hobby?,seperated by commas",
+        "Of course! Let's start by discussing your interests, strengths, and any specific industry you find appealing. What's your main interest?seperated by comma",
+        "To better assist you, could you please share your key skills and interests? This will help me provide more personalized career suggestions. What's your primary interest?seperated by comma"
+      ]
+    },
+    {
+      "tag": "aerospace_engineering",
+      "patterns": [
+        "Rockets",
+        "Airplanes",
+        "Space Exploration",
+        "Avionics",
+        "Propulsion,",
+        "Designing aircraft",
+        "Space exploration",
+        "Propulsion systems",
+        "Flight mechanics",
+        "Avionics,",
+        "Aviation",
+        "Physics",
+        "Mathematics",
+        "Engineering",
+        "Exploration"
+      ],
+      "responses": [
+        "Explore Aerospace Engineering at Indian Institute of Technology Kharagpur, Indian Institute of Engineering Science and Technology, Shibpur, Sathyabama Institute of Science and Technology located in West Bengal, West Bengal, Tamil Nadu respectively. Ranked 7, 68, 84 Respectively. Visit the respective website for more information: https://www.iitkgp.ac.in/, https://cusat.ac.in/, https://www.upes.ac.in/."
+      ]
+    },
+    {
+      "tag": "b._pharmacy",
+      "patterns": [
+        "B Course Interests:",
+        "Web Design",
+        "Programming",
+        "Data Analytics",
+        "UX Design",
+        "Digital Marketing"
+      ],
+      "responses": [
+        "Explore B. Pharmacy at PSG College of Pharmacy located in Tamil Nadu respectively. Ranked 61 Respectively. Visit the respective website for more information: https://www.psgcas.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._(bachelor_of_arts)",
+      "patterns": [
+        "Literature",
+        "History",
+        "Philosophy",
+        "Social sciences",
+        "Humanities"
+      ],
+      "responses": [
+        "Explore B.A. (Bachelor of Arts) at Mysore University located in Karnataka respectively. Ranked 71 Respectively. Visit the respective website for more information: https://cusat.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._(hons.)_arabic",
+      "patterns": [
+        "History",
+        "Languages",
+        "Literature",
+        "Philosophy",
+        "Religion"
+      ],
+      "responses": [
+        "Explore B.A. (Hons.) Arabic at Aligarh Muslim University located in Uttar Pradesh respectively. Ranked 19 Respectively. Visit the respective website for more information: https://www.amu.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._(hons.)_arabic_language",
+      "patterns": ["History", "Literature", "Arts", "Languages", "Philosophy"],
+      "responses": [
+        "Explore B.A. (Hons.) Arabic Language at Aligarh Muslim University located in Uttar Pradesh respectively. Ranked 31 Respectively. Visit the respective website for more information: https://www.amu.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._(hons.)_economics",
+      "patterns": [
+        "Literature",
+        "History",
+        "English",
+        "Psychology",
+        "Sociology,",
+        "Literature",
+        "Philosophy",
+        "History",
+        "Political Science",
+        "Sociology"
+      ],
+      "responses": [
+        "Explore B.A. (Hons.) Economics at Panjab University, Shri Mata Vaishno Devi University located in Chandigarh, Iammu and Kashmir respectively. Ranked 44, 26 Respectively. Visit the respective website for more information: https://puchd.ac.in/, https://smvdu.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._(hons.)_english",
+      "patterns": [
+        "History",
+        "English literature",
+        "Economics",
+        "Philosophy",
+        "Sociology"
+      ],
+      "responses": [
+        "Explore B.A. (Hons.) English at Panjab University located in Chandigarh respectively. Ranked 34 Respectively. Visit the respective website for more information: https://puchd.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._english",
+      "patterns": [
+        "History",
+        "Literature",
+        "Philosophy",
+        "Sociology",
+        "Foreign Languages"
+      ],
+      "responses": [
+        "Explore B.A. English at M. G. R. Educational and Research Institute located in Tamil Nadu respectively. Ranked 23 Respectively. Visit the respective website for more information: https://www.mgrdu.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._history",
+      "patterns": [
+        "Literature",
+        "History",
+        "Philosophy",
+        "Languages",
+        "Sociology"
+      ],
+      "responses": [
+        "Explore B.A. History at M. G. R. Educational and Research Institute located in Tamil Nadu respectively. Ranked 27 Respectively. Visit the respective website for more information: https://www.mgrei.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._tamil",
+      "patterns": [
+        "History",
+        "Philosophy",
+        "Literature",
+        "Sociology",
+        "Psychology"
+      ],
+      "responses": [
+        "Explore B.A. Tamil at Bharathidasan University located in Tamil Nadu respectively. Ranked 70 Respectively. Visit the respective website for more information: https://cusat.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.a._in_bengali",
+      "patterns": [
+        "History",
+        "Literature",
+        "Philosophy",
+        "Sociology",
+        "Psychology"
+      ],
+      "responses": [
+        "Explore B.A. in Bengali at Calcutta University located in West Bengal respectively. Ranked 23 Respectively. Visit the respective website for more information: https://www.caluniv.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.e._(hons.)_chemical_engineering",
+      "patterns": [
+        "Innovation",
+        "Design",
+        "Problem-solving",
+        "Technology",
+        "Future prospects"
+      ],
+      "responses": [
+        "Explore B.E. (Hons.) Chemical Engineering at Birla Institute of Technology & Science -Pilani located in Rajasthan respectively. Ranked 25 Respectively. Visit the respective website for more information: https://www.bits-pilani.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.f.sc._(bachelor_of_fisheries_science)",
+      "patterns": [
+        "Nutrition",
+        "Dietetics",
+        "Food Science",
+        "Public Health",
+        "Biochemistry"
+      ],
+      "responses": [
+        "Explore B.F.Sc. (Bachelor of Fisheries Science) at Tamil Nadu Dr.].]ayalalithaa Fisheries University located in Tamil Nadu respectively. Ranked 40 Respectively. Visit the respective website for more information: https://tnfu.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.pharm_(bachelor_of_pharmacy)",
+      "patterns": [
+        "Science",
+        "Medicine",
+        "Health",
+        "Research",
+        "Chemistry,",
+        "Healthcare",
+        "Research",
+        "Drug development",
+        "Pharmacy management",
+        "Community health"
+      ],
+      "responses": [
+        "Explore B.Pharm (Bachelor of Pharmacy) at College of Pharmacy, Madras Medical College, Nandha College of Pharmacy located in Tamil Nadu, Tamil Nadu respectively. Ranked 74, 77 Respectively. Visit the respective website for more information: https://www.cmdrcmcvellore.ac.in/, https://www.nandhapharmacy.org/."
+      ]
+    },
+    {
+      "tag": "b.pharma",
+      "patterns": ["Science", "Medicine", "Pharmacy", "Research", "Healthcare"],
+      "responses": [
+        "Explore B.Pharma at Amar Shaheed Baba Ajit Singh jujhar Singh Memorial College of Pharmacy located in Punjab respectively. Ranked 69 Respectively. Visit the respective website for more information: https://asbajsmemorialcollegeofpharmacy.com/."
+      ]
+    },
+    {
+      "tag": "b.pharmacy",
+      "patterns": [
+        "Medicine",
+        "Healthcare",
+        "Science",
+        "Research",
+        "Development"
+      ],
+      "responses": [
+        "Explore B.Pharmacy at Sri Venkateswara College of Pharmacy located in Andhra Pradesh respectively. Ranked 57 Respectively. Visit the respective website for more information: https://www.svcp.org.in/."
+      ]
+    },
+    {
+      "tag": "b.sc._(agriculture)",
+      "patterns": ["Biology", "Chemistry", "Mathematics", "Physics", "Zoology"],
+      "responses": [
+        "Explore B.Sc. (Agriculture) at Assam Agricultural University, Iorhat located in Assam respectively. Ranked 19 Respectively. Visit the respective website for more information: https://aau.ac.in."
+      ]
+    },
+    {
+      "tag": "b.sc._(honours)_agriculture",
+      "patterns": [
+        "Biology",
+        "Chemistry",
+        "Physics",
+        "Mathematics",
+        "Environmental studies"
+      ],
+      "responses": [
+        "Explore B.Sc. (Honours) Agriculture at Punjab Agricultural University, Ludhiana located in nan respectively. Ranked 74 Respectively. Visit the respective website for more information: https://uni-mysore.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.tech_-_computer_science_and_engineering",
+      "patterns": [
+        "Software Development",
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Data Science",
+        "Cybersecurity"
+      ],
+      "responses": [
+        "Explore B.Tech - Computer Science and Engineering at M.S. Ramaiah University of Applied Sciences located in Karnataka respectively. Ranked 65 Respectively. Visit the respective website for more information: https://www.msruas.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.tech_aeronautical_engineering",
+      "patterns": [
+        "Aviation",
+        "Aerodynamics",
+        "Aerospace",
+        "Simulation",
+        "Propulsion"
+      ],
+      "responses": [
+        "Explore B.Tech Aeronautical Engineering at Saveetha Institute of Medical and Technical Sciences located in Tamil Nadu respectively. Ranked 27 Respectively. Visit the respective website for more information: https://www.saveetha.com/."
+      ]
+    },
+    {
+      "tag": "b.tech_in_aerospace_engineering",
+      "patterns": [
+        "Aircraft",
+        "Spacecraft",
+        "Aerodynamics",
+        "Propulsion",
+        "Materials"
+      ],
+      "responses": [
+        "Explore B.Tech in Aerospace Engineering at UPES located in Uttarakhand respectively. Ranked 79 Respectively. Visit the respective website for more information: https://uni-mysore.ac.in/."
+      ]
+    },
+    {
+      "tag": "b.tech_in_food_technology",
+      "patterns": ["Food", "Chemistry", "Science", "Health", "Innovation"],
+      "responses": [
+        "Explore B.Tech in Food Technology at National Institute of Food Technology, Enterprenurship & Management located in Haryana respectively. Ranked 24 Respectively. Visit the respective website for more information: https://www.niftem.ac.in/."
+      ]
+    },
+    {
+      "tag": "bba_(general)",
+      "patterns": [
+        "Business",
+        "Accounting",
+        "Finance",
+        "Marketing",
+        "Management"
+      ],
+      "responses": [
+        "Explore BBA (General) at Symbiosis International located in Maharashtra respectively. Ranked 59 Respectively. Visit the respective website for more information: https://www.iitkgp.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)",
+      "patterns": [
+        "Engineering",
+        "Technology",
+        "Innovation",
+        "Problem-Solving",
+        "Research,",
+        "Innovation",
+        "Technology",
+        "Problem-solving",
+        "Design",
+        "Industry"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) at Kalinga Institute of Industrial Technology, Sharda University located in Odisha, Uttar Pradesh respectively. Ranked 29, 62 Respectively. Visit the respective website for more information: https://kiit.ac.in/, https://www.sharda.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_aerospace_engineering",
+      "patterns": [
+        "Aerospace",
+        "Engineering",
+        "Design",
+        "Physics",
+        "Technology",
+        ",",
+        "Aviation",
+        "Space Exploration",
+        "Aerodynamics",
+        "Propulsion",
+        "Control Systems,",
+        "Space exploration",
+        "Aerodynamics",
+        "Flight control",
+        "Propulsion",
+        "Aircraft design,",
+        "Aeronautics",
+        "Aerodynamics",
+        "Propulsion",
+        "Structures",
+        "Control systems"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Aerospace Engineering at Indian Institute of Technology Ropar, Indian Institute of Technology Madras, Indian Institute of Technology Delhi, Indian Institute of Technology Roorkee located in nan, Tamil Nadu, Delhi, Uttarakhand respectively. Ranked 33, 1, 3, 8 Respectively. Visit the respective website for more information: https://iitrpr.ac.in/, https://www.iitm.ac.in/, https://www.iitd.ac.in/, https://www.iitkgp.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_artificial_intelligence_and_data_science",
+      "patterns": [
+        "Innovation",
+        "Problem-solving",
+        "Automation",
+        "Curiosity",
+        "Data"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Artificial Intelligence and Data Science at Indian Institute of Technology Indore located in Madhya Pradesh respectively. Ranked 28 Respectively. Visit the respective website for more information: https://www.iiti.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_biological_sciences_and_bioengineering",
+      "patterns": [
+        "Biological Sciences",
+        "Genetics",
+        "Ecology",
+        "Microbiology",
+        "Evolution",
+        "Research",
+        "Bioengineering",
+        "Tissue Engineering",
+        "Biomedical Imaging",
+        "Biomaterials",
+        "Computational Biology",
+        "Synthetic Biology"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Biological Sciences and Bioengineering at Indian Institute of Technology Hyderabad located in Telangana respectively. Ranked 14 Respectively. Visit the respective website for more information: https://www.iith.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_biotechnology",
+      "patterns": [
+        "Biotechnology",
+        "Medicine",
+        "Research",
+        "Innovation",
+        "Health"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Biotechnology at National Institute of Technology Tiruchirappalli located in Tamil Nadu respectively. Ranked 21 Respectively. Visit the respective website for more information: https://www.nitt.edu/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_chemical_engineering",
+      "patterns": [
+        "Chemistry",
+        "Mathematics",
+        "Physics",
+        "Environment",
+        "Industry,",
+        "Chemistry",
+        "Mathematics",
+        "Physics",
+        "Energy",
+        "Environment"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Chemical Engineering at Indian Institute of Technology (Banaras Hindu University) Varanasi, Indian Institute of Technology Mandi located in Uttar Pradesh, Himachal Pradesh respectively. Ranked 31, 73 Respectively. Visit the respective website for more information: https://iitbhu.ac.in/, https://uni-mysore.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_civil_engineering",
+      "patterns": [
+        "Construction",
+        "Design",
+        "Environment",
+        "Infrastructure",
+        "Sustainability"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Civil Engineering at National Institute of Technology Hamirpur located in Himachal Pradesh respectively. Ranked 28 Respectively. Visit the respective website for more information: https://nith.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_computer_science_engineering",
+      "patterns": [
+        "Software development",
+        "Web development",
+        "Data science",
+        "Artificial intelligence",
+        "Machine learning"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Computer Science Engineering at Birla Institute of Technology located in jharkhand respectively. Ranked 20 Respectively. Visit the respective website for more information: https://www.bitmesra.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_computer_science_and_engineering",
+      "patterns": [
+        "Problem-solving",
+        "Design",
+        "Programming",
+        "Artificial intelligence",
+        "Networking,",
+        "Programming",
+        "Technology",
+        "Innovation",
+        "Problem-solving",
+        "Creativity,",
+        "Programming",
+        "Software Development",
+        "Artificial Intelligence",
+        "Data Science",
+        "Cloud Computing,",
+        "Programming",
+        "Technology",
+        "Innovation",
+        "Problem-solving",
+        "Career,",
+        "Technology",
+        "Programming",
+        "Problem-solving",
+        "Innovation",
+        "Mathematics"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Computer Science and Engineering at Maulana Azad National Institute of Technology, Indian Institute of Technology Iodhpur, Dr. B R Ambedkar National Institute of Technology, Ialandhar, Visvesvaraya National Institute of Technology, Nagpur, Graphic Era University located in Madhya Pradesh, Rajasthan, nan, Maharashtra, Uttarakhand respectively. Ranked 24, 67, 72, 82, 89 Respectively. Visit the respective website for more information: https://www.manit.ac.in/, https://cusat.ac.in/, https://uni-mysore.ac.in/, https://www.upes.ac.in/, https://www.sathyabama.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech.)_in_aerospace_engineering",
+      "patterns": [
+        "Aviation",
+        "Space exploration",
+        "Aerodynamics",
+        "Engineering design",
+        "Technology"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech.) in Aerospace Engineering at Indian Institute of Technology Kanpur located in Uttar Pradesh respectively. Ranked 5 Respectively. Visit the respective website for more information: https://www.iitk.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech.)_in_electronics_and_electrical_engineering",
+      "patterns": [
+        "Engineering",
+        "Technology",
+        "Electronics",
+        "Design",
+        "Robotics"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech.) in Electronics and Electrical Engineering at Indian Institute of Technology (Indian School of Mines) located in Iharkhand respectively. Ranked 42 Respectively. Visit the respective website for more information: https://www.iitism.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(btech)_in_chemical_engineering",
+      "patterns": [
+        "Chemistry",
+        "Mathematics",
+        "Physics",
+        "Engineering",
+        "Manufacturing,",
+        "Science",
+        "Math",
+        "Engineering",
+        "Chemistry",
+        "Environment"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (BTech) in Chemical Engineering at Indian Institute of Technology Gandhinagar, Indian Institute of Technology Bombay located in Gujarat, Maharashtra respectively. Ranked 24, 4 Respectively. Visit the respective website for more information: https://iitgn.ac.in/, https://www.iitb.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(civil_engineering)",
+      "patterns": [
+        "Infrastructure",
+        "Construction",
+        "Design",
+        "Environment",
+        "Sustainability"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (Civil Engineering) at Malaviya National Institute of Technology located in Rajasthan respectively. Ranked 62 Respectively. Visit the respective website for more information: https://www.iitkgp.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_in_biotechnology",
+      "patterns": [
+        "Biotechnology",
+        "Science",
+        "Technology",
+        "Innovation",
+        "Research"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology in Biotechnology at National Institute of Technology Silchar located in Assam respectively. Ranked 83 Respectively. Visit the respective website for more information: https://www.upes.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_in_computer_science_and_engineering",
+      "patterns": [
+        "Innovation",
+        "Creativity",
+        "Technology",
+        "Problem-Solving",
+        "Mathematics"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology in Computer Science and Engineering at Indian Institute of Technology Patna located in Bihar respectively. Ranked 66 Respectively. Visit the respective website for more information: https://cusat.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(computer_science_and_engineering)",
+      "patterns": [
+        "Programming",
+        "Software Development",
+        "Problem Solving",
+        "Technology",
+        "Innovation"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (Computer Science and Engineering) at Malaviya National Institute of Technology located in Rajasthan respectively. Ranked 62 Respectively. Visit the respective website for more information: https://www.iitkgp.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_in_agricultural_engineering_(b.tech._ag._engg.)",
+      "patterns": [
+        "Agriculture",
+        "Technology",
+        "Engineering",
+        "Food",
+        "Environment"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology in Agricultural Engineering (B.Tech. Ag. Engg.) at Orissa University ofAgriculture & Technology, Bhubaneswar located in Odisha respectively. Ranked 22 Respectively. Visit the respective website for more information: https://ouat.nic.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_in_agricultural_engineering_(b.tech._agril._engg.)",
+      "patterns": [
+        "Agriculture",
+        "Technology",
+        "Innovation",
+        "Sustainability",
+        "Rural development"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology in Agricultural Engineering (B.Tech. Agril. Engg.) at Chandra Shekhar Azad University ofAgriculture & Technology located in Uttar Pradesh respectively. Ranked 30 Respectively. Visit the respective website for more information: https://csauk.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_in_civil_engineering",
+      "patterns": [
+        "Construction",
+        "Design",
+        "Infrastructure",
+        "Sustainability",
+        "Water resources"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology in Civil Engineering at National Institute of Technology Silchar located in Assam respectively. Ranked 83 Respectively. Visit the respective website for more information: https://www.upes.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_in_electrical_engineering",
+      "patterns": [
+        "Electronics",
+        "Power Systems",
+        "Control Systems",
+        "Robotics",
+        "Automation"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology in Electrical Engineering at Indian Institute of Technology Patna located in Bihar respectively. Ranked 66 Respectively. Visit the respective website for more information: https://cusat.ac.in/."
+      ]
+    },
+    {
+      "tag": "chemical_engineering",
+      "patterns": [
+        "Chemistry",
+        "Engineering",
+        "Manufacturing",
+        "Environment",
+        "Energy"
+      ],
+      "responses": [
+        "Explore Chemical Engineering at Indian Institute of Engineering Science and Technology, Shibpur located in West Bengal respectively. Ranked 68 Respectively. Visit the respective website for more information: https://cusat.ac.in/."
+      ]
+    },
+    {
+      "tag": "civil_engineering",
+      "patterns": [
+        "Mathematics",
+        "Design",
+        "Construction",
+        "Infrastructure",
+        "Sustainability"
+      ],
+      "responses": [
+        "Explore Civil Engineering at National Institute of Technology Patna located in Bihar respectively. Ranked 19 Respectively. Visit the respective website for more information: https://nitp.ac.in/."
+      ]
+    },
+    {
+      "tag": "d.pharma",
+      "patterns": [
+        "Pharmaceutical Sciences",
+        "Drug Development",
+        "Healthcare Management",
+        "Research and Development",
+        "Medical Sales"
+      ],
+      "responses": [
+        "Explore D.Pharma at Amar Shaheed Baba Ajit Singh jujhar Singh Memorial College of Pharmacy located in Punjab respectively. Ranked 69 Respectively. Visit the respective website for more information: https://asbajsmemorialcollegeofpharmacy.com/."
+      ]
+    },
+    {
+      "tag": "electrical_engineering",
+      "patterns": [
+        "Electronics",
+        "Robotics",
+        "Power systems",
+        "Telecommunications",
+        "Renewable energy"
+      ],
+      "responses": [
+        "Explore Electrical Engineering at Delhi Technological University located in Delhi respectively. Ranked 61 Respectively. Visit the respective website for more information: https://www.iitkgp.ac.in/."
+      ]
+    },
+    {
+      "tag": "industrial_engineering",
+      "patterns": [
+        "Optimization",
+        "Logistics",
+        "Data Analysis",
+        "Problem Solving",
+        "Automation"
+      ],
+      "responses": [
+        "Explore Industrial Engineering at Sathyabama Institute of Science and Technology located in Tamil Nadu respectively. Ranked 84 Respectively. Visit the respective website for more information: https://www.sathyabama.ac.in/."
+      ]
+    },
+    {
+      "tag": "physics",
+      "patterns": [
+        "Curiosity",
+        "Problem-solving",
+        "Technology",
+        "Innovation",
+        "Mathematics"
+      ],
+      "responses": [
+        "Explore Physics at Indian Institute of Technology Kharagpur located in West Bengal respectively. Ranked 7 Respectively. Visit the respective website for more information: https://www.iitkgp.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_civil_engineering",
+      "patterns": [
+        "Design",
+        "Construction",
+        "Infrastructure",
+        "Sustainability",
+        "Problem-solving,",
+        "Design",
+        "Construction",
+        "Infrastructure",
+        "Environment",
+        "Technology,",
+        "Infrastructure",
+        "Design",
+        "Construction",
+        "Environment",
+        "Sustainability"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Civil Engineering at Indian Institute of Technology Madras, Indian Institute of Technology Delhi, Dr. B R Ambedkar National Institute of Technology, Ialandhar located in Tamil Nadu, Delhi, nan respectively. Ranked 1, 3, 72 Respectively. Visit the respective website for more information: https://www.iitm.ac.in/, https://www.iitd.ac.in/, https://uni-mysore.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_data_science_and_engineering",
+      "patterns": [
+        "Data analysis",
+        "Machine learning",
+        "Artificial intelligence",
+        "Big data",
+        "Cloud computing"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Data Science and Engineering at Indian Institute of Technology Hyderabad located in Telangana respectively. Ranked 14 Respectively. Visit the respective website for more information: https://www.iith.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_electrical_engineering",
+      "patterns": [
+        "Electronics",
+        "Energy",
+        "Power",
+        "Control",
+        "Automation,",
+        "Electricity",
+        "Electronics",
+        "Power",
+        "Automation",
+        "Renewable Energy"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Electrical Engineering at Indian Institute of Technology Indore, Indian Institute of Technology Ropar located in Madhya Pradesh, nan respectively. Ranked 28, 33 Respectively. Visit the respective website for more information: https://www.iiti.ac.in/, https://iitrpr.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_electrical_and_electronics_engineering",
+      "patterns": [
+        "Automation",
+        "Electronics",
+        "Power",
+        "Robotics",
+        "Software"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Electrical and Electronics Engineering at National Institute of Technology Tiruchirappalli located in Tamil Nadu respectively. Ranked 21 Respectively. Visit the respective website for more information: https://www.nitt.edu/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_electronics_engineering",
+      "patterns": [
+        "Semiconductors",
+        "Circuits",
+        "Embedded systems",
+        "Signal processing",
+        "Robotics"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Electronics Engineering at Indian Institute of Technology (Banaras Hindu University) Varanasi located in Uttar Pradesh respectively. Ranked 31 Respectively. Visit the respective website for more information: https://iitbhu.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_electronics_and_communication_engineering",
+      "patterns": [
+        "Electronics",
+        "Telecommunications",
+        "Computers",
+        "Robotics",
+        "Semiconductors,",
+        "Technology",
+        "Innovation",
+        "Communication",
+        "Electronics",
+        "Research"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Electronics and Communication Engineering at Indian Institute of Technology Mandi, Visvesvaraya National Institute of Technology, Nagpur located in Himachal Pradesh, Maharashtra respectively. Ranked 73, 82 Respectively. Visit the respective website for more information: https://uni-mysore.ac.in/, https://www.upes.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_information_technology",
+      "patterns": [
+        "Technology",
+        "Computers",
+        "Networks",
+        "Databases",
+        "Programming"
+      ],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Information Technology at Graphic Era University located in Uttarakhand respectively. Ranked 89 Respectively. Visit the respective website for more information: https://www.sathyabama.ac.in/."
+      ]
+    },
+    {
+      "tag": "bachelor_of_technology_(b.tech)_in_mechanical_engineering",
+      "patterns": ["Design", "Innovation", "Robotics", "Energy", "Aerospace"],
+      "responses": [
+        "Explore Bachelor of Technology (B.Tech) in Mechanical Engineering at National Institute of Technology Hamirpur located in Himachal Pradesh respectively. Ranked 28 Respectively. Visit the respective website for more information: https://nith.ac.in/."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "Thanks a lot"],
+      "responses": [
+        "You're welcome! Is there anything else you'd like to share or discuss?",
+        "No problem! How else can I assist you?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Goodbye", "See you later", "Bye"],
+      "responses": [
+        "Goodbye! If you ever want to chat again, feel free to reach out.",
+        "See you later! Take care."
+      ]
+    }
+  ]
+}
