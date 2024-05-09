@@ -45,24 +45,24 @@ migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-# Load and prepare the dataset
-# Replace the path with the new dataset path
-dataset_path = '../dataset/type.csv'
-df = pd.read_csv(dataset_path)
+# # Load and prepare the dataset
+# # Replace the path with the new dataset path
+# dataset_path = '../dataset/type.csv'
+# df = pd.read_csv(dataset_path)
 
-# Drop rows with NaN values
-df.dropna(inplace=True)
+# # Drop rows with NaN values
+# df.dropna(inplace=True)
 
-# Reindex the DataFrame
-df.reset_index(drop=True, inplace=True)
+# # Reindex the DataFrame
+# df.reset_index(drop=True, inplace=True)
 
-# Separate features (X) and target (y)
-X = df['passion_interest'].astype(str)
-y = df['Course'] + ' - ' + df['Name'] + ' (' + df['City'] + ', ' + df['State'] + ')'
+# # Separate features (X) and target (y)
+# X = df['passion_interest'].astype(str)
+# y = df['Course'] + ' - ' + df['Name'] + ' (' + df['City'] + ', ' + df['State'] + ')'
 
-# Train the model
-model = make_pipeline(CountVectorizer(), MultinomialNB())
-model.fit(X, y)
+# # Train the model
+# model = make_pipeline(CountVectorizer(), MultinomialNB())
+# model.fit(X, y)
 
 lemmatizer = WordNetLemmatizer()
 intents = json.loads(open('intents.json').read())
